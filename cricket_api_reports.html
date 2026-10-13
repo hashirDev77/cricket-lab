@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Cricket API Reports — SportsAPI365</title>
+  <style>
+:root {
+  --ink: #1b2430;
+  --muted: #5b6570;
+  --line: #d8dee6;
+  --paper: #ffffff;
+  --band: #f4f7fa;
+  --accent: #0f4c5c;
+  --accent-soft: #e8f2f4;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 11pt/1.55 "Iowan Old Style", Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
+}
+.page { max-width: 920px; margin: 0 auto; padding: 0; }
+h1 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 26pt;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  margin: 0 0 6pt;
+  line-height: 1.15;
+}
+h2 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 14.5pt;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 28pt 0 10pt;
+  padding-bottom: 5pt;
+  border-bottom: 1.5pt solid var(--accent);
+  page-break-after: avoid;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 12pt;
+  font-weight: 650;
+  color: #16333c;
+  margin: 18pt 0 8pt;
+  page-break-after: avoid;
+}
+p { margin: 0 0 10pt; }
+strong { font-weight: 700; }
+a { color: var(--accent); text-decoration: none; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 18pt 0; }
+.meta {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 9.5pt;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0 0 16pt;
+  padding: 12pt 14pt;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+}
+.meta p { margin: 0 0 3pt; white-space: pre-line; }
+.meta p:last-child { margin: 0; }
+.meta strong { color: var(--ink); font-weight: 650; }
+code, pre {
+  font-family: "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+code {
+  font-size: 8.6pt;
+  background: #eef2f5;
+  padding: 1px 4px;
+  border-radius: 3px;
+  word-break: break-word;
+}
+pre {
+  background: #152028;
+  color: #e8eef2;
+  font-size: 8.5pt;
+  line-height: 1.45;
+  padding: 12pt 14pt;
+  border-radius: 6px;
+  overflow-x: hidden;
+  white-space: pre-wrap;
+  word-break: break-word;
+  page-break-inside: avoid;
+}
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+blockquote {
+  margin: 10pt 0 14pt;
+  padding: 8pt 12pt;
+  border-left: 3px solid var(--accent);
+  background: var(--band);
+  color: #24303a;
+}
+ul, ol { margin: 0 0 12pt; padding-left: 22pt; }
+li { margin: 0 0 4pt; }
+li > p { margin: 0 0 4pt; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8pt 0 16pt;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 8pt;
+  line-height: 1.35;
+}
+thead { display: table-header-group; }
+tr { page-break-inside: avoid; }
+th {
+  text-align: left;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 650;
+  padding: 5pt 5pt;
+  border: 1px solid #0c3d4a;
+  vertical-align: top;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+td {
+  padding: 4.5pt 5pt;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: none;
+  -webkit-hyphens: none;
+}
+td code { font-size: 7.2pt; }
+tbody tr:nth-child(even) td { background: var(--band); }
+.cols-3 td:nth-child(1), .cols-3 th:nth-child(1) { white-space: nowrap; }
+.cols-7 { font-size: 7.1pt; table-layout: fixed; }
+.cols-7 td:nth-child(1), .cols-7 th:nth-child(1) { white-space: nowrap; width: 4%; }
+.cols-7 td:nth-child(2), .cols-7 th:nth-child(2) { width: 30%; }
+.cols-7 td:nth-child(3), .cols-7 th:nth-child(3) { width: 16%; }
+.cols-7 td:nth-child(4), .cols-7 th:nth-child(4),
+.cols-7 td:nth-child(5), .cols-7 th:nth-child(5),
+.cols-7 td:nth-child(6), .cols-7 th:nth-child(6) { white-space: nowrap; }
+.cols-7 td:nth-child(4), .cols-7 th:nth-child(4) { width: 7%; }
+.cols-7 td:nth-child(5), .cols-7 th:nth-child(5) { width: 11%; }
+.cols-7 td:nth-child(6), .cols-7 th:nth-child(6) { width: 12%; }
+.cols-7 td:nth-child(7), .cols-7 th:nth-child(7) { width: 20%; }
+.cols-4 { font-size: 7.4pt; }
+.toc {
+  background: var(--band);
+  border: 1px solid var(--line);
+  padding: 12pt 18pt 8pt;
+  margin: 0 0 22pt;
+  page-break-inside: avoid;
+}
+.toc:before {
+  content: "Contents";
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8pt;
+}
+.toc ul { margin: 0; padding-left: 18pt; }
+.toc li { margin: 0 0 3pt; font-size: 10pt; }
+.toc a { color: var(--ink); }
+.cover-kicker {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 8.5pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 0 8pt;
+}
+.footer-note {
+  margin-top: 28pt;
+  padding-top: 10pt;
+  border-top: 1px solid var(--line);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 8.5pt;
+  color: var(--muted);
+}
+@page {
+  size: A4;
+  margin: 14mm 10mm 16mm 10mm;
+}
+@media print {
+  body { font-size: 10.5pt; }
+  a { color: inherit; }
+}
+</style>
+</head>
+<body>
+  <article class="page">
+    <div class="cover-kicker">SportsAPI365 · Cricket REST catalogue</div>
+    <h1 id="cricket-api-reports">Cricket API Reports</h1>
+    <div class="meta"><p><strong>API:</strong> <code>https://sports-api.sportsdata365.com/msdata/v1/cricket/</code></p><p><strong>Product:</strong> Pitch Lab — a live cricket app built on the SportsAPI365 Cricket REST catalogue (39 endpoints)</p><p><strong>Scope:</strong> REST GET only. MCP, streaming, alerts, predictions, load testing, and third-party score comparison were not part of this work.</p></div>
+    <nav class="toc"><ul><li><a href="#1-what-we-built">1. What we built</a></li><li><a href="#2-how-we-built-it">2. How we built it</a></li><li><a href="#3-how-we-tested">3. How we tested</a></li><li><a href="#4-what-a-product-needs-vs-what-we-proved">4. What a product needs vs what we proved</a></li><li><a href="#5-endpoint-results-from-the-live-rest-run">5. Endpoint results from the live REST run</a></li><li><a href="#6-full-catalogue-all-39-routes">6. Full catalogue (all 39 routes)</a></li><li><a href="#7-product-walkthrough-what-each-screen-actually-needed">7. Product walkthrough — what each screen actually needed</a></li><li><a href="#8-findings-from-the-rest-run-priority">8. Findings from the REST run (priority)</a></li><li><a href="#9-agentic-gap-analysis-what-to-add-what-to-fix-what-to-improve">9. Agentic gap analysis — what to add, what to fix, what to improve</a></li><li><a href="#10-endpoints-that-would-remove-the-most-product-pain">10. Endpoints that would remove the most product pain</a></li></ul></nav>
+    <p>This note is the combined record of two pieces of work that were done in sequence. First we tested the Cricket API as a customer would: live calls, a written test script, and three end-to-end demos. Then we built a real cricket product on top of those same 39 endpoints, walked every screen by hand, and used a gap harness plus coding agents to turn “the call returned 200” into “can a customer actually ship a cricket app from this feed.”</p>
+<p>Nothing below was invented. Search returned the ids. The product only rendered what the API gave us. If a feature was not called, it is marked untested.</p>
+<hr />
+<h2 id="1-what-we-built">1. What we built</h2>
+<p>Pitch Lab is a small cricket product that a customer could reasonably expect from a sports data API: a home screen with live and today’s matches, a live board, a matches list with live / upcoming / results tabs, a match centre (overview, scorecard, commentary, overs, insights, odds), search, player pages, team pages, and competitions with a points table.</p>
+<p>The product is not a production consumer app. It is the proof that the Cricket API can, or cannot, support those screens without extra work. Every product screen talks to our own BFF (<code>/app/cricket/...</code>). The BFF talks to SportsAPI365, normalises the payload, and records a gap whenever a field, relationship, or filter that the screen needs is missing, null, slow, or shaped differently from another route.</p>
+<p>The app runs locally as two processes. The web UI is at <code>http://localhost:5173</code>. The BFF is at <code>http://127.0.0.1:8787</code>. An admin Gap Dashboard sits at <code>/admin/gaps</code> so a reviewer can see coverage, recommendations, and schema drift instead of only HTTP status codes.</p>
+<p>The short verdict from that product is the same as the API test: the Cricket API is usable for a first product. Search, player and team pages, today’s list, live match detail, head-to-head, IPL standings, and some odds all work. It is not yet the easiest live-score API to build with. A live home card cannot be built from the day’s fixture list alone. Scores appear only after each match is fetched one by one. Several widgets only exist after we hide them, fall back, or assemble four routes into one scorecard.</p>
+<hr />
+<h2 id="2-how-we-built-it">2. How we built it</h2>
+<p>We treated the 39-route catalogue as the only source of truth and asked a practical question: if a customer is given this API today, can they ship a normal cricket app?</p>
+<p>The stack is a Fastify BFF (<code>apps/api</code>) and a Vite + React UI (<code>apps/web</code>). The BFF owns the SportsAPI365 client, unwrap helpers, screen loaders, and the gap store. The UI is thin: it renders screen contracts (<code>/app/cricket/home</code>, <code>/matches/:id/scorecard</code>, <code>/players/:id</code>, and so on) and never talks to the provider directly.</p>
+<p>That split was deliberate. List routes and detail routes do not share one schema. Search and fixtures use <code>items</code>. Player and team match lists use <code>events</code>. Seasons use <code>seasons</code>. Player, team, match, and tournament objects sit one level down (<code>player</code>, <code>team</code>, <code>event</code>, <code>uniqueTournament</code>). Status is a string on lists and an object on detail. Start time is a unix number on lists and a string on detail. A UI that consumed the raw feed would have to special-case every screen. The BFF does that once, and records the special case as a gap.</p>
+<p>Screen loaders were written against a product contract, not against “HTTP 200.” A live home card is expected to have teams, status, start time, score, innings, and overs. A player page is expected to have name plus country, role, batting/bowling style, and a photo. When the provider does not meet the contract, the loader still tries to render the screen: it may call <code>/event/{id}</code> for each live row that has no score, it may hide Insights widgets on a 404, and it may show “Tournament unavailable” when <code>uniqueTournament.id</code> is null. Those workarounds keep the product usable. They are also the evidence that the API is not yet product-complete.</p>
+<p>Every provider call is logged with screen, component, status, time, and whether it was a fallback. Gaps are typed (missing field, optional 404, broken relationship, schema inconsistency, extra request required, and so on) and scored per screen. Recommendations on the Gap Dashboard are generated from those codes, not from a separate opinion list.</p>
+<hr />
+<h2 id="3-how-we-tested">3. How we tested</h2>
+<p>Testing was done in four layers. Each layer answers a different question. Together they are the basis of this report.</p>
+<h3 id="31-layer-one-live-rest-against-the-39-route-catalogue">3.1 Layer one — live REST against the 39-route catalogue</h3>
+<p>We called every route in the Cricket catalogue. The first question was simple: does the path exist, and do we get a JSON reply? A second, deeper pass then logged 52 calls plus 9 demo calls (about 61 REST requests, under a 150-call cap). Response times on the logged set were min 307 ms, average 399 ms, max 1010 ms (odds). MCP was not in this test.</p>
+<p>Result language used throughout:</p>
+<table class="cols-2">
+<thead>
+<tr>
+<th>Result</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pass / Works</strong></td>
+<td>200 with data a screen can show</td>
+</tr>
+<tr>
+<td><strong>Empty</strong></td>
+<td>200, nothing to show (match not started, no featured event, empty list)</td>
+</tr>
+<tr>
+<td><strong>Not available</strong></td>
+<td>404 on an optional extra. The parent match or player still exists</td>
+</tr>
+<tr>
+<td><strong>Fail</strong></td>
+<td>Wrong or unusable for the stated use (for example a finished filter empty while finished matches exist elsewhere)</td>
+</tr>
+<tr>
+<td><strong>Expected</strong></td>
+<td>400 or 404 on a bad request (missing <code>q</code>, non-numeric id, bad date)</td>
+</tr>
+</tbody>
+</table>
+<p>The deeper pass followed this flow:</p>
+<ol>
+<li><code>GET /search?q=…</code> to resolve real player, team, and competition ids. Nothing was invented.</li>
+<li><code>GET /fixtures/today</code> and <code>GET /events</code> including <code>status</code> and paging (page 1 and page 2).</li>
+<li><code>GET /event/{id}</code> plus innings, overs, ball-by-ball, h2h, odds, period-scores, pregame-form, best-players, team-streaks, and enrichments on a live match.</li>
+<li><code>GET /player/{id}</code> plus last/next matches and IPL season statistics (Kohli and Rohit, same season).</li>
+<li><code>GET /team/{id}</code> plus featured-event, squad, form, near-events, performance, last matches, and standings-seasons.</li>
+<li>IPL seasons → standings/total and standings/home.</li>
+<li>Invalid <code>q</code>, id, and date, to check error behaviour.</li>
+<li>Three local scripts (today, player, standings) as an end-to-end check of the same paths.</li>
+</ol>
+<p>Ids used in that run, all returned by search or by a previous 200:</p>
+<table class="cols-3">
+<thead>
+<tr>
+<th>Record</th>
+<th>Id</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Virat Kohli</td>
+<td>55089365</td>
+<td>search <code>q=Virat Kohli</code></td>
+</tr>
+<tr>
+<td>Rohit Sharma</td>
+<td>98189805</td>
+<td>search <code>q=Rohit Sharma</code></td>
+</tr>
+<tr>
+<td>India</td>
+<td>26236865</td>
+<td>search <code>q=India</code></td>
+</tr>
+<tr>
+<td>Australia</td>
+<td>73448951</td>
+<td>search <code>q=Australia</code></td>
+</tr>
+<tr>
+<td>Indian Premier League</td>
+<td>77922875</td>
+<td>search <code>q=Indian Premier League</code></td>
+</tr>
+<tr>
+<td>IPL 2026</td>
+<td>81844788</td>
+<td>IPL <code>/seasons</code> (first row)</td>
+</tr>
+<tr>
+<td>Afghanistan v Bangladesh</td>
+<td>29824257</td>
+<td><code>/fixtures/today</code> (in progress)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-layer-two-a-proper-script-to-run-the-endpoints">3.2 Layer two — a proper script to run the endpoints</h3>
+<p>We did not rely on one-off curls. We wrote and ran a small script kit so the same paths can be re-run from the repo.</p>
+<p>The first kit lives with the API audit (<code>docs/cricket-audit-demos/</code> in the bot repo). It reads the base URL from <code>.env</code>.</p>
+<pre><code class="language-bash">source venv/bin/activate
+python docs/cricket-audit-demos/demo_today.py
+python docs/cricket-audit-demos/demo_player.py
+python docs/cricket-audit-demos/demo_standings.py
+</code></pre>
+<table class="cols-3">
+<thead>
+<tr>
+<th>Script</th>
+<th>What it runs</th>
+<th>What it showed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>demo_today.py</code></td>
+<td><code>/fixtures/today</code> twice, then <code>/events?status=inprogress</code></td>
+<td>200; 5 matches; 4 live; scores blank on the list; second poll same ids. There is no stream — live means poll again.</td>
+</tr>
+<tr>
+<td><code>demo_player.py</code></td>
+<td>search → <code>/player/{id}</code> → <code>/events/last</code></td>
+<td>200; Kohli <code>55089365</code>; 3 of 553 recent matches; list key is <code>events</code>, not <code>items</code>.</td>
+</tr>
+<tr>
+<td><code>demo_standings.py</code></td>
+<td>search IPL → <code>/seasons</code> → <code>/standings/total</code></td>
+<td>200; IPL 2026 <code>81844788</code>; 10-row table. Seasons sit under <code>seasons</code>, not <code>items</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Those scripts already distinguish empty from error. A blank score on today’s list is the API, not a demo bug. A 404 on best-players is “extra not on file,” not “match missing.”</p>
+<p>The product repo has a second script, <code>pnpm audit:phase1</code>, which walks routes that the first live pass had not fully covered (<code>/players</code>, <code>/teams</code>, <code>/tournaments</code>, manager, typed enrichments, team media, rankings, unique-tournaments, standings/away) and writes the same gap records the screens use. That is how catalogue coverage and product coverage were kept on one list.</p>
+<p>A smoke check that does not need the scripts:</p>
+<pre><code class="language-bash">curl -sS &quot;$MSDATA_BASE_URL/v1/cricket/search?q=Virat%20Kohli&amp;page=1&amp;limit=1&quot; \
+  -H &quot;accept: application/json&quot;
+</code></pre>
+<p>Expect 200 JSON with Kohli in <code>items</code>.</p>
+<h3 id="33-layer-three-manual-product-testing">3.3 Layer three — manual product testing</h3>
+<p>After the BFF and UI were up, we walked the product the way a user would, not the way a catalogue would.</p>
+<p>We opened Home and Live and checked whether live cards showed a score (<code>PAK 98/1</code>, <code>BAN 316/8</code>) without the page looking empty. We opened Matches and switched Live / Upcoming / Results to see whether the finished tab stayed empty while completed games still appeared on team pages. We opened a live match centre and moved through Overview, Scorecard, Commentary, Overs, Insights, and Odds. We searched for players, teams, and IPL. We opened Kohli, Rohit, India, Australia, and the IPL tournament page including standings.</p>
+<p>The point of the manual pass was not “did the JSON parse.” It was “does this screen work with only the payload the API gave us, or did we have to add fallbacks, hide a widget, or drop a column.” That is how we caught things a catalogue-only pass could not: list rows have no scores, so Home made N+1 detail calls; match detail had a tournament name and a null tournament id, so Match → Tournament navigation broke; innings rows had player ids but no names, so a scorecard could not be printed as a customer expects; Insights 404 looked like a missing match until we special-cased it; odds came back with selection names <code>1</code> / <code>2</code> and no prices, and the call was the slowest in the feed.</p>
+<p>Wherever the product still rendered, we marked the screen as working with workarounds. Wherever a widget was hidden or a tab was empty, we recorded it as a gap against the endpoint that should have filled it.</p>
+<h3 id="34-layer-four-coding-agents-for-gap-analysis">3.4 Layer four — coding agents for gap analysis</h3>
+<p>The last layer was an agentic pass over the evidence, not a second set of live calls.</p>
+<p>The flow was:</p>
+<ol>
+<li><strong>Collect.</strong> The BFF already writes every provider call and every gap (<code>data/calls.json</code>, <code>data/gaps.json</code>) while the product is used. The REST audit already has a sanitised log (<code>docs/cricket-audit-evidence.json</code>) and the endpoint tables in this report.</li>
+<li><strong>Group.</strong> Coding agents read those files plus the screen loaders and grouped issues by endpoint and by product impact, not by HTTP status. “200 with no score on a live row” was treated as a P1 product failure, not a pass.</li>
+<li><strong>Compare list vs detail.</strong> Agents compared <code>/fixtures/today</code> and <code>/events</code> against <code>/event/{id}</code> for the same match: status shape, timestamp type, tournament id, venue, score. That is how schema drift and the broken Match → Tournament link were confirmed rather than guessed.</li>
+<li><strong>Compare player vs player.</strong> Kohli IPL 2026 statistics returned 200. Rohit on the same tournament and season returned 404. That was classified as coverage, not as a bad player id.</li>
+<li><strong>Map screen → endpoint.</strong> Each product widget was mapped to the route that should feed it. Missing routes (tournament leaders, a single scorecard payload, a simple <code>/player/{id}/statistics</code>) were called out as “add,” not as failed tests.</li>
+<li><strong>Write recommendations.</strong> The Gap Dashboard already turns gap codes into titles (<code>Improve /fixtures/today</code>, <code>Return empty 200 for optional extras</code>). Agents used that list, the manual walkthrough, and the REST tables to produce the “what to add / what to fix / what to improve” section at the end of this document.</li>
+</ol>
+<p>The agent pass did not invent new endpoints or new failures. It organised what the scripts and the product already proved, and it filled the empty headings that a catalogue-only report leaves behind (best-players, team-streaks, leaders, scorecard assembly).</p>
+<hr />
+<h2 id="4-what-a-product-needs-vs-what-we-proved">4. What a product needs vs what we proved</h2>
+<p>The live REST run had five games on today’s card and four in progress, including Afghanistan vs Bangladesh (1st innings, Bangladesh 316/8). A later product walk used live T20s on the same routes (including Pakistan vs Sri Lanka) and saw the same structural gaps.</p>
+<table class="cols-3">
+<thead>
+<tr>
+<th>What a product needs</th>
+<th>Ready?</th>
+<th>What we saw</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Today’s matches</td>
+<td>Yes</td>
+<td>The day’s list works.</td>
+</tr>
+<tr>
+<td>Live scores</td>
+<td>Partial</td>
+<td>Live games exist. The list does not include the score. You must open each match. No live stream.</td>
+</tr>
+<tr>
+<td>Results (completed games)</td>
+<td>Partial</td>
+<td><code>/events?status=finished</code> was <code>total=0</code>. A completed ODI still showed on Australia’s featured match.</td>
+</tr>
+<tr>
+<td>Points table</td>
+<td>Yes</td>
+<td>IPL 2026 table returned (10 rows; RCB 18 points at the top).</td>
+</tr>
+<tr>
+<td>Player / team pages</td>
+<td>Yes</td>
+<td>Kohli and India both loaded. Profile fields are thin (role <code>BM</code>, no photo, country often missing).</td>
+</tr>
+<tr>
+<td>Player season stats</td>
+<td>Partial</td>
+<td>Kohli’s IPL 2026 stats loaded. Rohit Sharma’s stats for the same season did not (not on file).</td>
+</tr>
+<tr>
+<td>Scorecard</td>
+<td>Partial</td>
+<td>Innings exist, but names, dismissals, extras, FOW, and partnerships are missing. The screen has to assemble innings + period-scores + overs + ball-by-ball.</td>
+</tr>
+<tr>
+<td>Head to head</td>
+<td>Yes</td>
+<td>Loaded on the live Test.</td>
+</tr>
+<tr>
+<td>Alerts</td>
+<td>No</td>
+<td>Not in the API catalogue. Not tested.</td>
+</tr>
+<tr>
+<td>Odds / predictions</td>
+<td>Partial</td>
+<td>Markets come back (5 on the Test, 7 on a later live T20). Selection names were <code>1</code> / <code>2</code>. Prices were missing on the product run. Odds is also the slowest call (~1 s). No predictions route.</td>
+</tr>
+<tr>
+<td>Typical wait</td>
+<td>~0.3–1.0 s</td>
+<td>Fastest logged calls ~307 ms. Odds ~1010 ms. Some product-time list calls exceeded 800 ms and were flagged slow.</td>
+</tr>
+</tbody>
+</table>
+<p>You can ship against this API if the app polls and the engineers budget extra GETs per live match. You should not promise “live scores from one cheap list call,” “push alerts,” or “stats for every star player in a season.”</p>
+<hr />
+<h2 id="5-endpoint-results-from-the-live-rest-run">5. Endpoint results from the live REST run</h2>
+<p>The table below is the logged live REST pass. Paths are relative to <code>/v1/cricket</code>. Times are from that run.</p>
+<table class="cols-7">
+<thead>
+<tr>
+<th>#</th>
+<th>Endpoint</th>
+<th>Input</th>
+<th>HTTP</th>
+<th>Time</th>
+<th>Result</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>/search</code></td>
+<td><code>q=Virat Kohli</code></td>
+<td>200</td>
+<td>332 ms</td>
+<td>Pass</td>
+<td>1 hit, id 55089365</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>/search</code></td>
+<td><code>q=India</code></td>
+<td>200</td>
+<td>378 ms</td>
+<td>Pass</td>
+<td>7 hits</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>/search</code></td>
+<td><code>q=Indian Premier League</code></td>
+<td>200</td>
+<td>331 ms</td>
+<td>Pass</td>
+<td>1 hit, id 77922875</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>/search</code></td>
+<td><code>q=Rohit Sharma</code></td>
+<td>200</td>
+<td>313 ms</td>
+<td>Pass</td>
+<td>4 hits, player id 98189805</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>/search</code></td>
+<td><code>q=Australia</code></td>
+<td>200</td>
+<td>326 ms</td>
+<td>Pass</td>
+<td>4 hits, team id 73448951</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>/search</code></td>
+<td>no <code>q</code></td>
+<td>400</td>
+<td>327 ms</td>
+<td>Expected</td>
+<td>“q may only contain letters…”</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>/fixtures/today</code></td>
+<td>—</td>
+<td>200</td>
+<td>353–756 ms</td>
+<td>Pass</td>
+<td>5 matches; <strong>no scores</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>/events</code></td>
+<td>page=1, limit=10</td>
+<td>200</td>
+<td>347 ms</td>
+<td>Pass</td>
+<td>5 matches</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>/events</code></td>
+<td>status=inprogress</td>
+<td>200</td>
+<td>336–360 ms</td>
+<td>Pass</td>
+<td>4 matches</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>/events</code></td>
+<td>status=finished</td>
+<td>200</td>
+<td>357 ms</td>
+<td>Empty</td>
+<td>total=0</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>/events</code></td>
+<td>limit=1 page=1 then page=2</td>
+<td>200</td>
+<td>349–358 ms</td>
+<td>Pass</td>
+<td>page 1 hasMore=true; page 2 returned the next row</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>/event/29824257</code></td>
+<td>live Test</td>
+<td>200</td>
+<td>307–379 ms</td>
+<td>Pass</td>
+<td>inprogress; BAN 316/8; competition id null</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>/event/29824257/innings</code></td>
+<td>—</td>
+<td>200</td>
+<td>393–432 ms</td>
+<td>Pass</td>
+<td>1 innings, 20 players</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>/event/29824257/overs</code></td>
+<td>—</td>
+<td>200</td>
+<td>354 ms</td>
+<td>Pass</td>
+<td>overs list</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>/event/29824257/ball-by-ball</code></td>
+<td>—</td>
+<td>200</td>
+<td>333 ms</td>
+<td>Pass</td>
+<td>page 1 = 10, total = 505</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>/event/29824257/h2h</code></td>
+<td>—</td>
+<td>200</td>
+<td>413 ms</td>
+<td>Pass</td>
+<td>teamDuel, managerDuel</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>/event/29824257/odds</code></td>
+<td>—</td>
+<td>200</td>
+<td>980–1010 ms</td>
+<td>Pass</td>
+<td>5 markets</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>/event/29824257/period-scores</code></td>
+<td>—</td>
+<td>200</td>
+<td>332 ms</td>
+<td>Pass</td>
+<td>periods</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>/event/29824257/pregame-form</code></td>
+<td>—</td>
+<td>200</td>
+<td>394 ms</td>
+<td>Pass</td>
+<td>homeTeam, awayTeam</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>/event/29824257/best-players</code></td>
+<td>live match</td>
+<td>404</td>
+<td>347 ms</td>
+<td>Not available</td>
+<td>Enrichment best_players not found</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>/event/29824257/team-streaks</code></td>
+<td>live match</td>
+<td>404</td>
+<td>327 ms</td>
+<td>Not available</td>
+<td>Enrichment team_streaks not found</td>
+</tr>
+<tr>
+<td>22</td>
+<td><code>/event/29824257/enrichments</code></td>
+<td>—</td>
+<td>200</td>
+<td>314 ms</td>
+<td>Empty</td>
+<td>types = 0</td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>/player/55089365</code></td>
+<td>Kohli</td>
+<td>200</td>
+<td>381 ms</td>
+<td>Pass</td>
+<td>name Virat Kohli under <code>player</code></td>
+</tr>
+<tr>
+<td>24</td>
+<td><code>/player/55089365/events/last</code></td>
+<td>limit=5</td>
+<td>200</td>
+<td>381 ms</td>
+<td>Pass</td>
+<td>list key <code>events</code>; total 553</td>
+</tr>
+<tr>
+<td>25</td>
+<td><code>/player/55089365/events/next</code></td>
+<td>limit=5</td>
+<td>200</td>
+<td>320 ms</td>
+<td>Pass</td>
+<td>list key <code>events</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td><code>/player/55089365/…/season/81844788/statistics</code></td>
+<td>IPL 2026</td>
+<td>200</td>
+<td>313 ms</td>
+<td>Pass</td>
+<td>player, team, statistics</td>
+</tr>
+<tr>
+<td>27</td>
+<td><code>/player/98189805/…/season/81844788/statistics</code></td>
+<td>Rohit, same IPL season</td>
+<td>404</td>
+<td>319 ms</td>
+<td>Not available</td>
+<td>No season statistics on file</td>
+</tr>
+<tr>
+<td>28</td>
+<td><code>/player/999999999</code></td>
+<td>unknown id</td>
+<td>404</td>
+<td>363 ms</td>
+<td>Expected</td>
+<td>player not found</td>
+</tr>
+<tr>
+<td>29</td>
+<td><code>/event/abc</code></td>
+<td>bad id</td>
+<td>400</td>
+<td>423 ms</td>
+<td>Expected</td>
+<td>numeric string expected</td>
+</tr>
+<tr>
+<td>30</td>
+<td><code>/team/26236865</code></td>
+<td>India</td>
+<td>200</td>
+<td>324 ms</td>
+<td>Pass</td>
+<td>name India under <code>team</code></td>
+</tr>
+<tr>
+<td>31</td>
+<td><code>/team/26236865/featured-event</code></td>
+<td>India</td>
+<td>200</td>
+<td>318 ms</td>
+<td>Empty</td>
+<td><code>event</code> = null</td>
+</tr>
+<tr>
+<td>32</td>
+<td><code>/team/73448951/featured-event</code></td>
+<td>Australia</td>
+<td>200</td>
+<td>357 ms</td>
+<td>Pass</td>
+<td>finished ODI 78819074, SA 145 / AUS 322; not the live Test</td>
+</tr>
+<tr>
+<td>33</td>
+<td><code>/team/26236865/near-events</code></td>
+<td>India</td>
+<td>200</td>
+<td>327 ms</td>
+<td>Pass</td>
+<td>previousEvent, nextEvent</td>
+</tr>
+<tr>
+<td>34</td>
+<td><code>/team/26236865/performance</code></td>
+<td>India</td>
+<td>200</td>
+<td>325 ms</td>
+<td>Pass</td>
+<td>events, points</td>
+</tr>
+<tr>
+<td>35</td>
+<td><code>/team/26236865/players</code></td>
+<td>India</td>
+<td>200</td>
+<td>426 ms</td>
+<td>Pass</td>
+<td>players</td>
+</tr>
+<tr>
+<td>36</td>
+<td><code>/team/26236865/events/last</code></td>
+<td>limit=5</td>
+<td>200</td>
+<td>359 ms</td>
+<td>Pass</td>
+<td>list key <code>events</code></td>
+</tr>
+<tr>
+<td>37</td>
+<td><code>/team/26236865/standings-seasons</code></td>
+<td>India</td>
+<td>200</td>
+<td>349 ms</td>
+<td>Pass</td>
+<td>27 seasons; keys <code>uniqueTournamentSeasons</code>, <code>tournamentSeasons</code></td>
+</tr>
+<tr>
+<td>38</td>
+<td><code>/unique-tournament/77922875</code></td>
+<td>IPL</td>
+<td>200</td>
+<td>354 ms</td>
+<td>Pass</td>
+<td>Indian Premier League</td>
+</tr>
+<tr>
+<td>39</td>
+<td><code>/unique-tournament/77922875/seasons</code></td>
+<td>IPL</td>
+<td>200</td>
+<td>398–609 ms</td>
+<td>Pass</td>
+<td>10 of 14 under <code>seasons</code> (not <code>items</code>)</td>
+</tr>
+<tr>
+<td>40</td>
+<td><code>/unique-tournament/77922875/events</code></td>
+<td>limit=5</td>
+<td>200</td>
+<td>350 ms</td>
+<td>Pass</td>
+<td>list key <code>events</code></td>
+</tr>
+<tr>
+<td>41</td>
+<td><code>/unique-tournament/77922875/scheduled-events/2026-10-09</code></td>
+<td>sample calendar date</td>
+<td>200</td>
+<td>339 ms</td>
+<td>Pass</td>
+<td>list key <code>events</code></td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>/unique-tournament/77922875/scheduled-events/not-a-date</code></td>
+<td>invalid</td>
+<td>400</td>
+<td>739 ms</td>
+<td>Expected</td>
+<td>expected YYYY-MM-DD</td>
+</tr>
+<tr>
+<td>43</td>
+<td><code>…/season/81844788/standings/total</code></td>
+<td>IPL 2026</td>
+<td>200</td>
+<td>469 ms</td>
+<td>Pass</td>
+<td>1 group, 10 rows. 1 RCB 18 pts … 8 CSK 12 pts</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>…/season/81844788/standings/home</code></td>
+<td>IPL 2026</td>
+<td>200</td>
+<td>316 ms</td>
+<td>Pass</td>
+<td>1 group</td>
+</tr>
+</tbody>
+</table>
+<p>Pagination: <code>page</code> is 1-based, <code>limit</code> is 1–100. Page 2 works. A huge page number returns 200 empty, not 404. Search always needs <code>q</code> (2–80 characters; letters, numbers, spaces, <code>'</code>, <code>.</code>, <code>-</code>). Missing <code>q</code> returns 400 with a character-class message, not “q is required.”</p>
+<p>HTTP behaviour we treated as reliable:</p>
+<table class="cols-3">
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>What to tell a user</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200, including empty lists / <code>event: null</code></td>
+<td>Call worked</td>
+<td>“Nothing for this team or match right now.” Not “cricket is down.”</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad <code>q</code>, <code>abc</code> in an id, bad date</td>
+<td>Fix the query. Bad date message is already clear: expected <code>YYYY-MM-DD</code>.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Unknown id, missing extra, no season stats</td>
+<td>Name the missing thing. Do not retry as if the feed is down.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-full-catalogue-all-39-routes">6. Full catalogue (all 39 routes)</h2>
+<p>The first catalogue pass called every route once. Combined with the depth pass and the product’s phase-1 audit, this is the coverage picture. “In the bot” means the cricket bot already calls the route. The product BFF calls a wider set because the screens need it.</p>
+<table class="cols-4">
+<thead>
+<tr>
+<th>What this is</th>
+<th>Endpoint</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Match details</td>
+<td><code>/event/{eventId}</code></td>
+<td>200 Works</td>
+<td>Details sit under <code>event</code>. Tournament id can be null.</td>
+</tr>
+<tr>
+<td>Ball by ball</td>
+<td><code>/event/{eventId}/ball-by-ball</code></td>
+<td>200 (empty if not started)</td>
+<td>Live Test total=505. Useful commentary feed.</td>
+</tr>
+<tr>
+<td>Best players (MOTM)</td>
+<td><code>/event/{eventId}/best-players</code></td>
+<td>404 Not available</td>
+<td>Optional extra. 404 on a live match with hundreds of balls.</td>
+</tr>
+<tr>
+<td>List of match extras</td>
+<td><code>/event/{eventId}/enrichments</code></td>
+<td>200 Works</td>
+<td>Types list was empty.</td>
+</tr>
+<tr>
+<td>One match extra by name</td>
+<td><code>/event/{eventId}/enrichments/{type}</code></td>
+<td>404</td>
+<td>No extras on that match.</td>
+</tr>
+<tr>
+<td>Head to head</td>
+<td><code>/event/{eventId}/h2h</code></td>
+<td>200 Works</td>
+<td>Team comparison is there; coach comparison may be thin.</td>
+</tr>
+<tr>
+<td>Innings / scorecard</td>
+<td><code>/event/{eventId}/innings</code></td>
+<td>200 Works</td>
+<td>Use this for batting figures. Names and dismissals still missing.</td>
+</tr>
+<tr>
+<td>Odds</td>
+<td><code>/event/{eventId}/odds</code></td>
+<td>200 (empty before start)</td>
+<td>Slowest call. Markets exist; prices and selection names need work.</td>
+</tr>
+<tr>
+<td>Overs</td>
+<td><code>/event/{eventId}/overs</code></td>
+<td>200 (empty if not started)</td>
+<td>Over number, runs, wickets. No bowler or balls-in-over.</td>
+</tr>
+<tr>
+<td>Period scores</td>
+<td><code>/event/{eventId}/period-scores</code></td>
+<td>200 (can be empty / null values)</td>
+<td>Period row can exist with null home/away.</td>
+</tr>
+<tr>
+<td>Pre-game form</td>
+<td><code>/event/{eventId}/pregame-form</code></td>
+<td>200 (can be blank)</td>
+<td>Home/away can be null on a live international.</td>
+</tr>
+<tr>
+<td>Team streaks</td>
+<td><code>/event/{eventId}/team-streaks</code></td>
+<td>404 Not available</td>
+<td>Same as best players — optional extra, not on this match.</td>
+</tr>
+<tr>
+<td>All matches (feed)</td>
+<td><code>/events</code></td>
+<td>200 Works</td>
+<td>Live filter works. Finished filter was empty.</td>
+</tr>
+<tr>
+<td>Today’s fixtures</td>
+<td><code>/fixtures/today</code></td>
+<td>200 Works</td>
+<td>Names and status, no scores.</td>
+</tr>
+<tr>
+<td>Coach / manager</td>
+<td><code>/manager/{managerId}</code></td>
+<td>404 unless id exists</td>
+<td>India had no coach id. Skip unless the team payload has one.</td>
+</tr>
+<tr>
+<td>Player profile</td>
+<td><code>/player/{playerId}</code></td>
+<td>200 Works</td>
+<td>Profile sits under <code>player</code>.</td>
+</tr>
+<tr>
+<td>Player’s matches</td>
+<td><code>/player/{playerId}/events/{direction}</code></td>
+<td>200 Works</td>
+<td><code>last</code> or <code>next</code>. No player figures on the row.</td>
+</tr>
+<tr>
+<td>Player stats in a season</td>
+<td><code>/player/{id}/unique-tournament/{tid}/season/{sid}/statistics</code></td>
+<td>200 or 404</td>
+<td>Worked for Kohli in IPL. Rohit 404 on the same season.</td>
+</tr>
+<tr>
+<td>All players</td>
+<td><code>/players</code></td>
+<td>200 Works</td>
+<td>Directory is thin: name, id, role <code>BM</code>.</td>
+</tr>
+<tr>
+<td>Search</td>
+<td><code>/search</code></td>
+<td>200 Works</td>
+<td>Needs <code>q</code>. How we find a player or team by name.</td>
+</tr>
+<tr>
+<td>Team profile</td>
+<td><code>/team/{teamId}</code></td>
+<td>200 Works</td>
+<td>Profile sits under <code>team</code>. Name and country. No logo.</td>
+</tr>
+<tr>
+<td>List of team extras</td>
+<td><code>/team/{teamId}/enrichments</code></td>
+<td>200 Works</td>
+<td>8 extras listed (unlike the match extras list).</td>
+</tr>
+<tr>
+<td>One team extra by name</td>
+<td><code>/team/{teamId}/enrichments/{type}</code></td>
+<td>200 Works</td>
+<td>Bot uses <code>events_next</code>.</td>
+</tr>
+<tr>
+<td>Team’s matches</td>
+<td><code>/team/{teamId}/events/{direction}</code></td>
+<td>200 Works</td>
+<td><code>last</code> or <code>next</code>.</td>
+</tr>
+<tr>
+<td>Featured match</td>
+<td><code>/team/{teamId}/featured-event</code></td>
+<td>200 Empty or finished</td>
+<td>India null. Australia a finished ODI, not the live Test.</td>
+</tr>
+<tr>
+<td>Team media</td>
+<td><code>/team/{teamId}/media</code></td>
+<td>200 Works</td>
+<td>Photos.</td>
+</tr>
+<tr>
+<td>Previous / next match</td>
+<td><code>/team/{teamId}/near-events</code></td>
+<td>200 (can be empty)</td>
+<td>Prefer this over featured-event for “what is next.”</td>
+</tr>
+<tr>
+<td>Team form</td>
+<td><code>/team/{teamId}/performance</code></td>
+<td>200 Works</td>
+<td>Recent form.</td>
+</tr>
+<tr>
+<td>Squad</td>
+<td><code>/team/{teamId}/players</code></td>
+<td>200 Works</td>
+<td>Under <code>players</code>. Role is often not enough to group a squad.</td>
+</tr>
+<tr>
+<td>Rankings</td>
+<td><code>/team/{teamId}/rankings</code></td>
+<td>200 (list can be empty)</td>
+<td>Empty is still a valid reply.</td>
+</tr>
+<tr>
+<td>Seasons with a table</td>
+<td><code>/team/{teamId}/standings-seasons</code></td>
+<td>200 Works</td>
+<td>Use this to find which season’s points table to load.</td>
+</tr>
+<tr>
+<td>Team’s competitions</td>
+<td><code>/team/{teamId}/unique-tournaments</code></td>
+<td>200 Works</td>
+<td>Useful for a team’s competition list. Not a live feed.</td>
+</tr>
+<tr>
+<td>All teams</td>
+<td><code>/teams</code></td>
+<td>200 Works</td>
+<td>Name + country code. No logo.</td>
+</tr>
+<tr>
+<td>All competitions</td>
+<td><code>/tournaments</code></td>
+<td>200 Works</td>
+<td>Name only.</td>
+</tr>
+<tr>
+<td>Competition details</td>
+<td><code>/unique-tournament/{id}</code></td>
+<td>200 Works</td>
+<td>Under <code>uniqueTournament</code>. <code>currentSeasonId</code> can be null.</td>
+</tr>
+<tr>
+<td>Competition matches</td>
+<td><code>/unique-tournament/{id}/events</code></td>
+<td>200 Works</td>
+<td>Can include old seasons (IPL 2013 rows appeared on the tournament page).</td>
+</tr>
+<tr>
+<td>Matches on a date</td>
+<td><code>/unique-tournament/{id}/scheduled-events/{date}</code></td>
+<td>200 Works</td>
+<td>Empty list is OK. Bad date → 400 <code>YYYY-MM-DD</code>.</td>
+</tr>
+<tr>
+<td>Points table</td>
+<td><code>/unique-tournament/{id}/season/{sid}/standings/{type}</code></td>
+<td>200 Works</td>
+<td>Type <code>total</code>, <code>home</code>, or <code>away</code>. NRR missing. <code>scoresFor</code> / <code>scoresAgainst</code> came back 0.</td>
+</tr>
+<tr>
+<td>Seasons of a competition</td>
+<td><code>/unique-tournament/{id}/seasons</code></td>
+<td>200 Works</td>
+<td>Needed before player season stats or a points table.</td>
+</tr>
+</tbody>
+</table>
+<p>Not in any of these tests: MCP, streaming / alerts (not in the 39-route catalogue), predictions, comparison with Google or another score site, load testing.</p>
+<hr />
+<h2 id="7-product-walkthrough-what-each-screen-actually-needed">7. Product walkthrough — what each screen actually needed</h2>
+<p>This section is the product review, written against the same endpoints as the REST tables. “Observed” is what the live API returned while Pitch Lab was running. “Needed” is what a normal cricket screen requires.</p>
+<h3 id="home-and-live-get-fixturestoday-and-get-events">Home and Live — <code>GET /fixtures/today</code> and <code>GET /events</code></h3>
+<p>List rows have teams, status, and start time. Live scores are not on the list. Tournament name is often missing. Venue is missing. Status is a string (<code>inprogress</code> / <code>notstarted</code>). Start time is a unix number.</p>
+<p><code>GET /fixtures/today</code> returned five matches. None of the four live rows had a score on the list:</p>
+<table class="cols-4">
+<thead>
+<tr>
+<th>Id</th>
+<th>Match</th>
+<th>Status on list</th>
+<th>Score on list</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>29824257</td>
+<td>Afghanistan v Bangladesh</td>
+<td>inprogress</td>
+<td>not present</td>
+</tr>
+<tr>
+<td>13725236</td>
+<td>South Africa v Australia</td>
+<td>inprogress</td>
+<td>not present</td>
+</tr>
+<tr>
+<td>43247376</td>
+<td>Boland v Easterns</td>
+<td>notstarted</td>
+<td>not present</td>
+</tr>
+<tr>
+<td>49822134</td>
+<td>India v West Indies</td>
+<td>inprogress</td>
+<td>not present</td>
+</tr>
+<tr>
+<td>25643079</td>
+<td>Pakistan v Sri Lanka</td>
+<td>inprogress</td>
+<td>not present</td>
+</tr>
+</tbody>
+</table>
+<p><code>GET /events?status=inprogress</code> returned the four in-progress rows. A later home screen with two live matches needed four Cricket API calls (two list calls plus two event-detail fallbacks) to show <code>PAK 98/1</code> vs <code>SL 0</code>.</p>
+<p>Needed on every list row: <code>homeScore</code> / <code>awayScore</code> (runs, wickets, overs), current innings label, tournament id <strong>and</strong> tournament name, venue, and the same status object and time format as match detail. Without this, every live home page becomes an N+1 problem.</p>
+<h3 id="match-centre-get-eventeventid">Match centre — <code>GET /event/{eventId}</code></h3>
+<p>Scores, venue, and innings text are here (<code>PAK 98/1</code>, Rawalpindi, 1st Inning; or BAN 316/8 in 83.4). Status is an object, and the code can be <code>21</code> instead of <code>inprogress</code>. <code>uniqueTournament.name</code> is present. <code>uniqueTournament.id</code> is <strong>null</strong>. List rows for the same match already had a tournament id (<code>tournamentId</code> 76719630 on the AFG v BAN list row).</p>
+<p>Needed: always set <code>uniqueTournament.id</code> when a tournament name exists; one status shape on list and detail (<code>{ code, type, description }</code>); one timestamp type (unix seconds or ISO, not both); a clear match-format field (Test / ODI / T20). Without the tournament id, Match → Tournament navigation breaks.</p>
+<h3 id="results-get-eventsstatusfinished">Results — <code>GET /events?status=finished</code></h3>
+<p><code>total = 0</code> on a day when finished matches exist on team pages (Australia’s featured event was a finished ODI, SA 145 / AUS 322). A Matches → Results tab cannot stay empty while completed games are available on other routes.</p>
+<h3 id="scorecard-get-eventidinnings">Scorecard — <code>GET /event/{id}/innings</code></h3>
+<p>On a live T20: one innings, 11 batting rows. Runs, balls, 4s, 6s are there. Player <strong>name</strong> is missing (only an id). No dismissal text. No extras. No fall of wickets. No partnerships. No innings team name or innings total. The live Test had 1 innings and 20 players — same shape, better volume, still not a printable scorecard.</p>
+<p>Needed for a real scorecard: player name + player id, how out (and fielder if relevant), extras (wides, no-balls, byes, leg-byes, penalty), fall of wickets, partnerships, innings team, runs, wickets, overs.</p>
+<p>Better still: a single <code>GET /event/{id}/scorecard</code>. Building a scorecard from innings + period-scores + overs + ball-by-ball is too much work for a standard cricket page.</p>
+<h3 id="commentary-get-eventidball-by-ball">Commentary — <code>GET /event/{id}/ball-by-ball</code></h3>
+<p>Useful. Over, ball, batter, bowler, runs, and commentary text are present. Missing: score after the ball, extras type, wicket / dismissal type, fielder, timestamp.</p>
+<h3 id="overs-get-eventidovers">Overs — <code>GET /event/{id}/overs</code></h3>
+<p>Over number, runs, and wickets. Missing: balls in the over, bowler, team total after the over, innings id.</p>
+<h3 id="insights-get-eventidbest-players-and-get-eventidteam-streaks">Insights — <code>GET /event/{id}/best-players</code> and <code>GET /event/{id}/team-streaks</code></h3>
+<p>Both returned 404 on a live match (<code>Enrichment "best_players" was not found</code>) while ball-by-ball <code>total</code> was 505. The enrichments list was empty. A 404 looks like the match does not exist. If the extra is not ready, return <strong>200</strong> with an empty body. Keep these optional; do not make them required.</p>
+<h3 id="pregame-form-get-eventidpregame-form">Pregame form — <code>GET /event/{id}/pregame-form</code></h3>
+<p><code>homeTeam</code> and <code>awayTeam</code> can be null on a live international. Needed: recent form for both sides, or a documented empty object (not a blank that looks broken).</p>
+<h3 id="period-scores-get-eventidperiod-scores">Period scores — <code>GET /event/{id}/period-scores</code></h3>
+<p>A period row can exist (<code>inning1</code>) with home/away values null. Needed: period totals that match the live score.</p>
+<h3 id="odds-get-eventidodds">Odds — <code>GET /event/{id}/odds</code></h3>
+<p>Markets come back. Selection names are <code>1</code> / <code>2</code>. Prices were missing on the product run. This route is also slower than the rest of the feed. Needed: market name, selection name, price, and market status. Keep it off the first match request if it stays slow.</p>
+<h3 id="player-profile-get-playerid">Player profile — <code>GET /player/{id}</code></h3>
+<p>Kohli: name, current team (RCB), role <code>BM</code>. Missing: country, batting style, bowling style, photo. Role should be a readable value (<code>Batter</code>), not <code>BM</code>. Search hits have the same problem: id and name only. No photo, country, or team.</p>
+<h3 id="player-season-statistics">Player season statistics</h3>
+<p><code>GET /player/{id}/unique-tournament/{tid}/season/{sid}/statistics</code></p>
+<p>Kohli IPL 2026 returns 200 (matches, innings, 100s, 50s, 4s, 6s, high score). The same season for Rohit Sharma returns <strong>404</strong> (<code>No season statistics on file</code>). Field names also differ from what a product expects (<code>runsScored</code> instead of <code>runs</code>, <code>battingAverage</code> instead of <code>average</code>). No fielding block.</p>
+<p>Needed: stats for every squad player in that season, or a clear “not on file” <strong>200</strong>; one field list (matches, innings, runs, average, strike rate, 100s, 50s, 4s, 6s, high score, wickets, economy, best figures, catches); a simple <code>GET /player/{id}/statistics</code> so the client does not have to already know tournament id + season id.</p>
+<h3 id="player-matches-get-playerideventslast-and-next">Player matches — <code>GET /player/{id}/events/last</code> and <code>.../next</code></h3>
+<p>Match list works (Kohli has a large history). Player figures for that match are not on the row. Needed: runs / wickets for that player on each recent-match card.</p>
+<h3 id="players-directory-get-players">Players directory — <code>GET /players</code></h3>
+<p>Directory works (about 8,900 players). Rows are thin: name, id, role <code>BM</code>. No country, team, photo, or filters. Needed: country, team, role, photo, and query filters for country / team / role.</p>
+<h3 id="team-profile-get-teamid">Team profile — <code>GET /team/{id}</code></h3>
+<p>Name and country. No logo. No manager id on India.</p>
+<h3 id="squad-get-teamidplayers">Squad — <code>GET /team/{id}/players</code></h3>
+<p>India squad returned no players in one product run; the live REST pass did return players. When players do come back, role is often not enough to group Batters / Keepers / All-rounders / Bowlers. Needed: a stable squad list with name, id, role, and photo.</p>
+<h3 id="featured-match-get-teamidfeatured-event">Featured match — <code>GET /team/{id}/featured-event</code></h3>
+<p>This is not the current live match. It can be empty, upcoming, or a finished game. Document it as an editorial / recommended match. Do not treat it as “live now.” Live should come from <code>near-events</code> or <code>/events?status=inprogress</code>.</p>
+<h3 id="directories-get-teams-and-get-tournaments">Directories — <code>GET /teams</code> and <code>GET /tournaments</code></h3>
+<p>Lists work. Team row has name + country code. Tournament row has name only. No logo, category, current season, or active flag. Needed: logo, country, category, current season id.</p>
+<h3 id="tournament-detail-get-unique-tournamentid">Tournament detail — <code>GET /unique-tournament/{id}</code></h3>
+<p>IPL name and country. <code>currentSeasonId</code> is null. <code>active</code> is null. No logo. Needed: current season id, dates, logo, category.</p>
+<h3 id="tournament-matches-get-unique-tournamentidevents">Tournament matches — <code>GET /unique-tournament/{id}/events</code></h3>
+<p>Returns a mixed / old list (IPL rows from 2013 appeared on the tournament page). Needed: current-season matches by default, with season id as a filter.</p>
+<h3 id="standings-get-unique-tournamentidseasonsidstandingstype">Standings — <code>GET /unique-tournament/{id}/season/{sid}/standings/{type}</code></h3>
+<p>Table works (10 IPL 2026 rows: position, team, played, won, lost, points). Missing: NRR. <code>scoresFor</code> / <code>scoresAgainst</code> came back as 0. Needed: P, W, L, NRR, points — only columns that are real.</p>
+<h3 id="tournament-leaders-no-endpoint">Tournament leaders — no endpoint</h3>
+<p>There is no route for Most Runs, Most Wickets, Most Sixes, Best Strike Rate, or Best Bowling. Needed: <code>GET /unique-tournament/{id}/season/{sid}/leaders</code>. Assembling this from per-player season stats is not practical, and those stats are already missing for some squad players.</p>
+<h3 id="manager-get-managerid">Manager — <code>GET /manager/{id}</code></h3>
+<p>404 unless a manager id exists on the team. National teams often have no manager id. Low priority. Only useful as a link from a team page.</p>
+<hr />
+<h2 id="8-findings-from-the-rest-run-priority">8. Findings from the REST run (priority)</h2>
+<p>These are the script findings from the live REST run, kept here because the product later reproduced every one of them.</p>
+<table class="cols-3">
+<thead>
+<tr>
+<th>Pri</th>
+<th>Finding</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td>Today’s list has no scores</td>
+<td>4 live matches printed without a score; <code>/event/29824257</code> had BAN 316/8.</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Competition id missing on match detail</td>
+<td><code>uniqueTournament.id</code> null on 29824257 and on Australia featured 78819074.</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Status / start time differ list vs detail</td>
+<td>List: <code>status</code> string, <code>statusType</code> null, timestamp int. Detail: <code>status</code> object, <code>statusType</code> set, timestamp string.</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Optional extras 404 on a live match</td>
+<td>best-players and team-streaks 404 while ball-by-ball total=505.</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>List array name is not always <code>items</code></td>
+<td>Search/fixtures use <code>items</code>. Seasons use <code>seasons</code>. Player matches use <code>events</code>.</td>
+</tr>
+<tr>
+<td>P1</td>
+<td>Player stats missing for one IPL squad member</td>
+<td>Kohli IPL 2026 = 200. Rohit same season = 404.</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Finished filter empty</td>
+<td><code>/events?status=finished</code> total=0; Australia featured-event was a finished ODI.</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>Featured match ≠ live match</td>
+<td>India featured = null. Australia featured = finished ODI, not Test 13725236.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="9-agentic-gap-analysis-what-to-add-what-to-fix-what-to-improve">9. Agentic gap analysis — what to add, what to fix, what to improve</h2>
+<p>This is the output of the agent pass over the scripts, the call log, and the product gaps. It is split the way an API team would actually work: new payloads, broken behaviour, and quality.</p>
+<h3 id="91-add-these-routes-or-fields-do-not-exist-today">9.1 Add (these routes or fields do not exist today)</h3>
+<ol>
+<li><strong>Scores on list rows.</strong> <code>homeScore</code> / <code>awayScore</code>, current innings, and overs on <code>/fixtures/today</code> and <code>/events</code>. This is the single largest product cost. Four live games currently mean four extra GETs on every home refresh.</li>
+<li><strong>A real scorecard payload.</strong> <code>GET /event/{id}/scorecard</code> with player name + id, dismissal, extras, fall of wickets, partnerships, and innings totals. Do not ask every customer to assemble four routes.</li>
+<li><strong>Tournament leaders.</strong> <code>GET /unique-tournament/{id}/season/{sid}/leaders</code> for most runs, wickets, sixes, strike rate, and bowling figures. Per-player season stats cannot fill this, and they are already incomplete.</li>
+<li><strong>A simple player statistics route.</strong> <code>GET /player/{id}/statistics</code> so a profile page does not have to already know tournament id and season id.</li>
+<li><strong>Match format.</strong> Test / ODI / T20 on both list and detail. The product currently guesses from other fields.</li>
+<li><strong>Player and team media on the thin rows.</strong> Country, batting/bowling style, readable role, photo on <code>/player/{id}</code>, <code>/players</code>, and search hits. Logo on <code>/team/{id}</code> and <code>/teams</code>. Logo, category, current season id, and active flag on <code>/unique-tournament/{id}</code> and <code>/tournaments</code>.</li>
+<li><strong>Player figures on recent-match cards.</strong> Runs / wickets for that player on <code>/player/{id}/events/last</code>.</li>
+<li><strong>NRR on standings.</strong> And stop returning <code>scoresFor</code> / <code>scoresAgainst</code> as 0 if they are not real.</li>
+<li><strong>Filters on</strong> <code>/players</code><strong>.</strong> Country, team, role. A directory of ~8,900 names without filters is not a product screen.</li>
+</ol>
+<h3 id="92-fix-the-route-exists-but-the-product-cannot-trust-it">9.2 Fix (the route exists, but the product cannot trust it)</h3>
+<ol>
+<li><strong>Always set</strong> <code>uniqueTournament.id</code> when a tournament name exists on <code>/event/{id}</code>. Keep list <code>tournamentId</code> and detail id aligned. Match → series navigation depends on this.</li>
+<li><strong>One status object and one timestamp type</strong> on list and detail. Prefer <code>{ code, type, description }</code> and unix seconds UTC as an integer.</li>
+<li><code>/events?status=finished</code> <strong>must return finished matches</strong> that already exist on team pages, or the docs must say the events feed is live/upcoming only.</li>
+<li><strong>Optional extras must not 404 on a valid match.</strong> <code>best-players</code>, <code>team-streaks</code>, and <code>/enrichments/{type}</code> should return 200 with an empty body. A 404 cannot be distinguished from “this match id is wrong.”</li>
+<li><strong>Season statistics coverage.</strong> Same tournament + season should not 200 for Kohli and 404 for Rohit without a documented “not on file” 200. Field names should be one list: <code>runs</code>, <code>average</code>, not <code>runsScored</code> / <code>battingAverage</code>.</li>
+<li><strong>Tournament events should default to the current season.</strong> IPL 2013 rows on the tournament page are stale data, not a fixtures feed.</li>
+<li><strong>Squad list must be stable.</strong> India returning no players on one product run and a list on the REST run is not shippable. Include name, id, role, photo.</li>
+<li><strong>Period scores must match the live score.</strong> A period row with null home/away is worse than no period row.</li>
+<li><strong>Pregame form should be form or an explicit empty object</strong>, not null teams on a live international.</li>
+</ol>
+<h3 id="93-improve-usable-but-costly-or-confusing">9.3 Improve (usable, but costly or confusing)</h3>
+<ol>
+<li><strong>Unwrap keys.</strong> Search/fixtures/events use <code>items</code>. Seasons use <code>seasons</code>. Player/team/tournament match lists use <code>events</code>. Standings-seasons use <code>uniqueTournamentSeasons</code> / <code>tournamentSeasons</code>. Standings rows sit at <code>standings[0].rows</code>. One unwrap helper belongs in every official example.</li>
+<li><strong>Nested wrappers.</strong> Read <code>body.player</code>, <code>body.team</code>, <code>body.event</code>, <code>body.uniqueTournament</code>. Examples that read <code>id</code> at the top will fail. Show the <code>{ "event": null }</code> featured-event case in the docs.</li>
+<li><strong>Document</strong> <code>featured-event</code> <strong>as editorial.</strong> India null and Australia’s finished ODI are both valid under that reading. They are invalid if a client treats the route as “live now.”</li>
+<li><strong>Odds.</strong> Market name, selection name (not <code>1</code> / <code>2</code>), price, market status. Keep the call off the first match payload while it stays near 1 second.</li>
+<li><strong>Ball-by-ball.</strong> Add score after the ball, extras type, wicket type, fielder, timestamp.</li>
+<li><strong>Overs.</strong> Add balls in the over, bowler, team total after the over, innings id.</li>
+<li><strong>Search errors.</strong> Missing <code>q</code> should say <code>q</code> is required, not only list allowed characters.</li>
+<li><strong>Role codes.</strong> <code>BM</code> is not a product string. Map to Batter / Bowler / All-rounder / Wicket-keeper.</li>
+<li><strong>Latency.</strong> Publish typical times. Do not put odds (or any call that regularly exceeds ~800 ms) on the first home or match request.</li>
+<li><strong>Polling contract.</strong> There is no stream. Two polls of today’s list in the demo returned the same five ids. Say so in the docs, including a suggested poll interval.</li>
+</ol>
+<hr />
+<h2 id="10-endpoints-that-would-remove-the-most-product-pain">10. Endpoints that would remove the most product pain</h2>
+<p>If the API team can only do a short list, this is the order that would have changed Pitch Lab the most:</p>
+<ol>
+<li>Scores, overs, innings, and tournament id/name on <code>/fixtures/today</code> and <code>/events</code>.</li>
+<li><code>uniqueTournament.id</code> always set on <code>/event/{id}</code>.</li>
+<li>One status + time schema on list and detail.</li>
+<li>A real scorecard payload (names, dismissals, extras, FOW, partnerships).</li>
+<li>Working <code>/events?status=finished</code>.</li>
+<li>Season stats for every squad player, with one field list.</li>
+<li>Tournament leaders.</li>
+<li>200-empty instead of 404 for optional match extras.</li>
+</ol>
+<hr />
+    <p class="footer-note">Product assessment from live REST calls against the Cricket catalogue and a working Pitch Lab product.</p>
+  </article>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "cricket-product",
+  "private": true,
+  "description": "Cricket Product Experience & API Gap Lab",
+  "scripts": {
+    "dev": "pnpm --parallel --filter @cricket/api --filter @cricket/web dev",
+    "dev:api": "pnpm --filter @cricket/api dev",
+    "dev:web": "pnpm --filter @cricket/web dev",
+    "audit:phase1": "pnpm --filter @cricket/api audit:phase1"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}
