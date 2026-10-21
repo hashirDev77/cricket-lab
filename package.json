@@ -1,17 +1,23 @@
 {
   "name": "cricket-product",
   "private": true,
-  "description": "Cricket Product Experience & API Gap Lab",
+  "version": "0.1.0",
+  "type": "module",
   "scripts": {
-    "dev": "pnpm --parallel --filter @cricket/api --filter @cricket/web dev",
-    "dev:api": "pnpm --filter @cricket/api dev",
-    "dev:web": "pnpm --filter @cricket/web dev",
-    "audit:phase1": "pnpm --filter @cricket/api audit:phase1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "engines": {
-    "node": ">=20"
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+  "devDependencies": {
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2"
   }
 }
